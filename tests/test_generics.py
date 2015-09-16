@@ -155,8 +155,8 @@ class TestRootView(TestCase):
         data = {'text': 'foobar' * 100}
         request = factory.post('/', data, HTTP_ACCEPT='text/html')
         response = self.view(request).render()
-        expected_error = '<span class="help-block">Ensure this field has no more than 100 characters.</span>'
-        assert expected_error in response.rendered_content.decode('utf-8')
+        expected_error = '<span class="help-block">Ensure this value has at most 100 characters (it has 600).</span>'
+        self.assertIn(expected_error, response.rendered_content.decode('utf-8'))
 
 
 EXPECTED_QUERIES_FOR_PUT = 2
@@ -302,8 +302,8 @@ class TestInstanceView(TestCase):
         data = {'text': 'foobar' * 100}
         request = factory.put('/', data, HTTP_ACCEPT='text/html')
         response = self.view(request, pk=1).render()
-        expected_error = '<span class="help-block">Ensure this field has no more than 100 characters.</span>'
-        assert expected_error in response.rendered_content.decode('utf-8')
+        expected_error = '<span class="help-block">Ensure this value has at most 100 characters (it has 600).</span>'
+        self.assertIn(expected_error, response.rendered_content.decode('utf-8'))
 
 
 class TestFKInstanceView(TestCase):
